@@ -1,7 +1,9 @@
 import React, { memo } from 'react'
 import {renderRoutes} from 'react-router-config'
+import { Provider } from 'react-redux'
 
 import { routes } from './router'
+import store  from '@/store'
 
 import AppHeader from './components/app-header'
 import AppFooter from './components/app-footer'
@@ -10,14 +12,15 @@ import { HashRouter } from 'react-router-dom'
 const App = memo(() => {
   return (
     <div>
-      <HashRouter>
-      <AppHeader />
-        {
-          renderRoutes(routes)
-        }
-      <AppFooter />
-      </HashRouter>
-      
+      <Provider store={store}>
+        <HashRouter>
+        <AppHeader />
+          {
+            renderRoutes(routes)
+          }
+        <AppFooter />
+        </HashRouter>
+      </Provider>
     </div>
   )
 })

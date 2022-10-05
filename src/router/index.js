@@ -3,6 +3,12 @@ import { Redirect } from 'react-router-dom'
 import Discover from '@/pages/discover'
 import Friend from '@/pages/friend'
 import Mine from '@/pages/mine'
+import DMRecommend from '@/pages/discover/c-pages/recommend'
+import DMRanking from '@/pages/discover/c-pages/ranking'
+import DMSongs from '@/pages/discover/c-pages/songs'
+import DMDjRadio from '../pages/discover/c-pages/djradio'
+import DMArtist from '../pages/discover/c-pages/artist'
+import DMAlbum from '../pages/discover/c-pages/album'
 
 const routes =[
     {
@@ -14,10 +20,44 @@ const routes =[
     },
     {
         path:'/discover',
-        component: Discover
+        component: Discover,
+        routes: [
+            {
+              path: "/discover",
+              exact: true,
+              render: () => (
+                <Redirect to="/discover/recommend"/>
+              )
+            },
+            {
+              path: "/discover/recommend",
+              component: DMRecommend
+            },
+            {
+              path: "/discover/ranking",
+              component: DMRanking
+            },
+            {
+              path: "/discover/songs",
+              component: DMSongs
+            },
+            {
+              path: "/discover/djradio",
+              exact: true,
+              component: DMDjRadio
+            },
+            {
+              path: "/discover/artist",
+              component: DMArtist
+            },
+            {
+              path: "/discover/album",
+              component: DMAlbum
+            },
+          ]
     },
     {
-        path:'/friends',
+        path:'/friend',
         component: Friend
     },
     {
