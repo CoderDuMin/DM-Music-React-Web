@@ -1,7 +1,7 @@
 export const headerLinks = [
     {
         title:'发现音乐',
-        path:'/'
+        path:'/discover'
     },
     {
         title:'我的音乐',

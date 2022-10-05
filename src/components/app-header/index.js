@@ -15,7 +15,7 @@ const AppHeader = memo(() => {
     }
     else{
         return (
-            <NavLink to={item.path} exact>
+            <NavLink to={item.path} >
                 {item.title}
                 <i className='sprite_01 icon'></i>
             </NavLink>
