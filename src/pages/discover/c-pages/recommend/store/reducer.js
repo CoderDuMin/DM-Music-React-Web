@@ -1,14 +1,15 @@
 import * as actionTypes from './constants' 
 
-function reducer(state={
+const defaultState = {
     topBanners:[]
-},action){
+}
+
+function reducer(state=defaultState,action){
     switch(action.type){
         case actionTypes.CHANGE_TOP_BANNER:
             return {...state,topBanners:action.banners}
         default:
             return state;
-
     }
 }
 
