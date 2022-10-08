@@ -27,8 +27,10 @@ export default memo(function Banner(props) {
     setCurrentIndex(to)
   },[])
   
+  // 其他业务逻辑
   const bgImage = topBanners[currentIndex] && (topBanners[currentIndex].imageUrl+"?imageView&blur=40x20")
 
+  // jsx代码
   return (
     <BannerWrapper bgImage={bgImage}>
       <div className='banner wrap-v2'>
