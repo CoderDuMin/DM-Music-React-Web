@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo, } from 'react'
 
 import { DiscoverWrapper} from './style'
 import { discoverMenus } from '@/common/local-data'

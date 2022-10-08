@@ -1,19 +1,13 @@
-import React, { memo, useEffect } from 'react'
-import { connect, shallowEqual, useDispatch, useSelector} from 'react-redux'
-import { getTopBannersAction } from './store/actioncreator'
+import React, { memo } from 'react'
+import { RecommendWrapper } from './style'
+import Banner from './c-cpns/top-banner'
 
 const Recommend = (props) => {
-  const dispatch = useDispatch()
-  const {topBanners} = useSelector(state => ({
-    topBanners:state.recommend.topBanners
-  }),shallowEqual)
-
-  useEffect(()=>{
-    dispatch(getTopBannersAction())
-  },[dispatch])
-
+  
   return (
-    <div>Recommend:{topBanners.length}</div>
+    <RecommendWrapper>
+      <Banner/>
+    </RecommendWrapper>
   )
 }
 
