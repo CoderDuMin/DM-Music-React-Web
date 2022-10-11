@@ -4,6 +4,7 @@ import { shallowEqual, useDispatch,useSelector } from 'react-redux'
 import ThemeHeaderRcm from '@/components/theme-header-rcm'
 import { RecommendRankingWrapper } from './style'
 import { getRankingsAction } from '../../store/actioncreator'
+import TopRanking from '../../../../../../components/top-ranking'
 
 export default memo(function RecommendRanking(props) {
   // state
@@ -22,7 +23,11 @@ export default memo(function RecommendRanking(props) {
   return (
     <RecommendRankingWrapper>
       <ThemeHeaderRcm title="榜单"  ></ThemeHeaderRcm>
-      <div className='tops'></div>
+      <div className='tops'>
+        <TopRanking info={hotRanking} />
+        <TopRanking info={newRanking} />
+        <TopRanking info={originRanking} />
+      </div>
     </RecommendRankingWrapper>
   )
 })
