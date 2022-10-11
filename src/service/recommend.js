@@ -25,3 +25,14 @@ export function getNewAlbum(limit){
         }
     })
 }
+
+export function getTopRanking(id){
+    return request({
+        // url:'/top/list?id='+idx,
+        url:'/playlist/detail',
+        method:'get',
+        params:{
+            id
+        }
+    })
+}
