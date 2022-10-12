@@ -10,6 +10,9 @@ import Banner from './c-cpns/top-banner'
 import HotRecommend from './c-cpns/hot-recommend'
 import NewAlbum from './c-cpns/new-album'
 import RecommendRanking from './c-cpns/recommend-ranking'
+import UserLogin from './c-cpns/user-login'
+import SettleSinger from './c-cpns/settle-singer'
+import HotAnchor from './c-cpns/hot-anchor'
 
 const Recommend = (props) => {
   
@@ -23,7 +26,9 @@ const Recommend = (props) => {
           <RecommendRanking></RecommendRanking>
         </RecommendLeft>
         <RecommendRight>
-
+          <UserLogin></UserLogin>
+          <SettleSinger></SettleSinger>
+          <HotAnchor></HotAnchor>
         </RecommendRight>
       </Content>
     </RecommendWrapper>

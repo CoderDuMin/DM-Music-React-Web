@@ -110,6 +110,9 @@
   .sprite_player {
     background: url(../img/playbar_sprite.png) no-repeat 0 9999px;
   }
+  .sprite_player_lrc{
+    background: url(../img/drawLrc.png) no-repeat 0 9999px;
+  }
   
   .lyric-class .ant-message-notice-content {
     position: fixed;
