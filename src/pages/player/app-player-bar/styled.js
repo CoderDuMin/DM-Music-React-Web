@@ -18,7 +18,7 @@ export const PlaybarWrapper = styled.div`
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
-    height: 47px;
+    height: 48px;
   }
 `
 
@@ -29,10 +29,14 @@ export const Control = styled.div`
   .prev, .next {
     width: 28px;
     height: 28px;
+    cursor: pointer;
   }
 
   .prev {
     background-position: 0 -130px;
+    &:hover{
+      background-position: -30px -130px;
+    }
   }
 
   .play {
@@ -40,10 +44,14 @@ export const Control = styled.div`
     height: 36px;
     margin: 0 8px;
     background-position: 0 ${props => props.isPlaying ? "-165px": "-204px"};
+    cursor: pointer;
   }
 
   .next {
     background-position: -80px -130px;
+    &:hover{
+      background-position: -110px -130px;
+    }
   }
 `
 
@@ -132,10 +140,16 @@ export const Operator = styled.div`
   }
   .favor {
     background-position: -88px -163px;
+    &:hover{
+      background-position: -88px -189px;
+    }
   }
 
   .share {
     background-position: -114px -163px;
+    &:hover{
+      background-position: -114px -189px;
+    }
   }
 
   .right {
@@ -145,6 +159,9 @@ export const Operator = styled.div`
     
     .volume {
       background-position: -2px -248px;
+      &:hover{
+        background-position: -31px -248px;
+      }
     }
 
     .loop {
@@ -158,11 +175,26 @@ export const Operator = styled.div`
             return "-3px -344px"
         }
       }};
+      &:hover{
+        background-position: ${props => {
+          switch(props.sequence) {
+            case 1:
+              return "-96px -248px"
+            case 2:
+              return "-96px -344px"
+            default:
+              return "-33px -344px"
+          }
+        }};
+      }
     }
 
     .playlist {
       width: 59px;
       background-position: -42px -68px;
+      &:hover{
+        background-position: -42px -98px;
+      }
     }
   }
 `

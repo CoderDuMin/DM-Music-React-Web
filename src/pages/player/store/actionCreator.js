@@ -11,7 +11,11 @@ const changeCurrentSongAction = (song) => ({
 export const getCurrentSongAction = (ids) =>{
   return dispatch => {
     getSongDetail(ids).then(res=>{
-      dispatch(changeCurrentSongAction(res.songs[0]))
+      let song = {}
+      if(res && res.songs ){
+        song = res.songs[0]
+      }
+      dispatch(changeCurrentSongAction(song))
     })
   }
 }

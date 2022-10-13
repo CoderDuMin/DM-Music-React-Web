@@ -5,8 +5,5 @@ export function getSongDetail(ids){
     url:'/song/detail',
     method:'get',
     params:{ids},
-    headers:{
-      Cookie:'cookie'
-    }
   })
 }
