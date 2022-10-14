@@ -1,5 +1,6 @@
 import React, { memo, useEffect,useState,useRef, useCallback } from 'react'
 import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom'
 
 
 import { Slider } from 'antd';
@@ -11,7 +12,8 @@ import {
  } from './styled'
 import { getCurrentSongAction } from '../store/actionCreator';
 import { useSelector } from 'react-redux';
-import { formatDate,getPlaySong } from '@/utils/format-utils'
+import { formatDate,getPlaySong,getSizeImage } from '@/utils/format-utils'
+import DefaultAlbumImg from '@/assets/img/default_album.jpg'
 
 export default memo(function AppPlayerBar() {
   // props and state
@@ -21,18 +23,23 @@ export default memo(function AppPlayerBar() {
   const [isSliding, setIsSliding] = useState(false)
 
   // redux hooks
-  const {currentSong={}} = useSelector(state => ({
-    currentSong:state.getIn(['player','currentSong'])
+  const {currentSong={},playList=[]} = useSelector(state => ({
+    currentSong:state.getIn(['player','currentSong']),
+    playList:state.getIn(['player','playList'])
   }))
   const dispatch = useDispatch()
-
   // other hooks
+  // useEffect(()=>{
+  //   dispatch(getCurrentSongAction(441102548))
+  // },[dispatch])
   useEffect(()=>{
-    dispatch(getCurrentSongAction(441102548))
-  },[dispatch])
-  useEffect(()=>{
-    audioCtx.current.src = getPlaySong(currentSong.id || 386538)
-    audioCtx.current.loop = true
+    currentSong.id && (audioCtx.current.src = getPlaySong(currentSong.id))
+    audioCtx.current.play().then(res => {
+      console.log('开始播放')
+      setIsPlaying(true)
+    }).catch(err => {
+      setIsPlaying(false)
+    })
   },[currentSong])
   const audioCtx = useRef()
 
@@ -42,6 +49,7 @@ export default memo(function AppPlayerBar() {
   const duration = currentSong.dt ? currentSong.dt : 0
   const showDuration = formatDate(duration,'mm:ss')
   const showCurrentTime = formatDate(currentTime,'mm:ss')
+  const showSongPicUrl = currentSong.al ? getSizeImage(currentSong.al.picUrl,34) : ''
   // handle function
   const handlePlay = useCallback(()=>{
       isPlaying ? audioCtx.current.pause() : audioCtx.current.play()
@@ -68,7 +76,7 @@ export default memo(function AppPlayerBar() {
     setCurrentTime(cur)
     setIsSliding(false)
     !isPlaying && handlePlay()
-  },[duration,isPlaying,audioCtx])
+  },[duration,isPlaying,audioCtx,handlePlay])
 
 
   return (
@@ -81,8 +89,11 @@ export default memo(function AppPlayerBar() {
         </Control>
         <PlayInfo>
           <div className='image'>
+          <NavLink to={'/discover/songDetail'}>
+            <img src={showSongPicUrl || DefaultAlbumImg} alt="" />
+          </NavLink>
             <a href="/#" >
-              <img src="http://p3.music.126.net/wczcMvZpbUEfCpBPcikwJg==/109951163922329458.jpg?param=34y34" alt="" />
+             
             </a>
           </div>
           <div className='info'>

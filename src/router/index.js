@@ -9,6 +9,7 @@ import DMSongs from '@/pages/discover/c-pages/songs'
 import DMDjRadio from '../pages/discover/c-pages/djradio'
 import DMArtist from '../pages/discover/c-pages/artist'
 import DMAlbum from '../pages/discover/c-pages/album'
+import SongDetail from '@/pages/player'
 
 const routes =[
     {
@@ -53,6 +54,10 @@ const routes =[
             {
               path: "/discover/album",
               component: DMAlbum
+            },
+            {
+              path: "/discover/songDetail",
+              component: SongDetail
             },
           ]
     },

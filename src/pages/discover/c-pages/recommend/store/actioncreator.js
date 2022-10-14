@@ -15,7 +15,7 @@ export const changeHotRecommendAction = (res) => ({
 })
 export const changeNewAlbumsAction = (res) => ({
     type:actionType.CHANGE_NEW_ALBUM,
-    newAlbums:res.weekData.slice(0,15)
+    newAlbums:res.weekData ? res.weekData.slice(0,15) : []
 })
 export const changeHotRankingAction = (res) => ({
     type:actionType.CHANGE_HOT_RANKING,

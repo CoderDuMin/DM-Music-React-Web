@@ -14,7 +14,7 @@ instance.interceptors.request.use(config => {
 
 
   // 3.params/data序列化的操作
-  console.log("请求被拦截");
+  // console.log("请求被拦截");
 
   return config;
 }, err => {
