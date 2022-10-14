@@ -1,13 +1,14 @@
 import { getSongDetail } from "../../../service/player"
 
 import * as actionTypes from './constants'
+import { getRandom } from '@/utils/math-utils'
 
 const changeCurrentSongAction = (song) => ({
   type:actionTypes.CHANGE_CURRENT_SONG,
   currentSong:song
 })
 
-const changeCurrentIndexAction = (index) => ({
+const changeCurrentSongIndexAction = (index) => ({
   type:actionTypes.CHANGE_CURRENT_SONG_INDEX,
   currentSongIndex:index
 })
@@ -21,7 +22,47 @@ const changePlayListAction = (playList) => {
   console.log('触发changePlayListAction',playList,action)
   return action
 }
+const changeSequenceAction = (index) => ({
+  type:actionTypes.CHANGE_SEQUENCE,
+  sequence:index
+})
 
+export const changePlayModeAction = () => {
+  return (dispatch,getState) => {
+    const sequence = getState().getIn(['player','sequence'])
+    let modeIndex = sequence + 1
+    if(modeIndex > 2){
+      modeIndex = 0
+    } 
+    dispatch(changeSequenceAction(modeIndex))
+  }
+}
+
+export const changeCurrentSongAndIndexAction = (tag) => {
+  return (dispatch,getState) => {
+    const sequence = getState().getIn(['player','sequence'])
+    const playList = getState().getIn(['player','playList'])
+    const currentSongIndex = getState().getIn(['player','currentSongIndex'])
+
+    let currentIndex = -999
+    switch(sequence){
+      case 1:
+       currentIndex = getRandom(playList.length)
+       while(currentIndex === currentSongIndex && playList.length > 1){
+        currentIndex = getRandom(playList.length)
+       }
+       break
+      default:
+       currentIndex = currentSongIndex + tag
+       if(currentIndex < 0) currentIndex = playList.length - 1
+       if(currentIndex >= playList.length ) currentIndex = 0
+    }
+
+    dispatch(changeCurrentSongIndexAction(currentIndex))
+    dispatch(changeCurrentSongAction(playList[currentIndex]))
+
+  }
+}
 
 export const getCurrentSongAction = (ids) =>{
   return (dispatch,getState) => {
@@ -29,7 +70,7 @@ export const getCurrentSongAction = (ids) =>{
     let index = playList.findIndex(item => item.id === ids)
     if(index !== -1){
       // 歌单中已有该歌曲
-      dispatch(changeCurrentIndexAction(index))
+      dispatch(changeCurrentSongIndexAction(index))
       dispatch(changeCurrentSongAction(playList[index]))
     }
     else{
@@ -42,7 +83,7 @@ export const getCurrentSongAction = (ids) =>{
         let song = res.songs[0]
         let newPlayList = [...playList,song]
         dispatch(changeCurrentSongAction(song))
-        dispatch(changeCurrentIndexAction(newPlayList.length - 1))
+        dispatch(changeCurrentSongIndexAction(newPlayList.length - 1))
         dispatch(changePlayListAction(newPlayList))
       })
     }

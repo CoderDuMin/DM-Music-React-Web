@@ -10,7 +10,7 @@ import {
   PlayInfo,
   Operator
  } from './styled'
-import { getCurrentSongAction } from '../store/actionCreator';
+import { changeCurrentSongAndIndexAction,changePlayModeAction } from '../store/actionCreator';
 import { useSelector } from 'react-redux';
 import { formatDate,getPlaySong,getSizeImage } from '@/utils/format-utils'
 import DefaultAlbumImg from '@/assets/img/default_album.jpg'
@@ -23,15 +23,14 @@ export default memo(function AppPlayerBar() {
   const [isSliding, setIsSliding] = useState(false)
 
   // redux hooks
-  const {currentSong={},playList=[]} = useSelector(state => ({
+  const {currentSong={},sequence=0,playList=[]} = useSelector(state => ({
     currentSong:state.getIn(['player','currentSong']),
-    playList:state.getIn(['player','playList'])
+    playList:state.getIn(['player','playList']),
+    sequence:state.getIn(['player','sequence']),
   }))
   const dispatch = useDispatch()
   // other hooks
-  // useEffect(()=>{
-  //   dispatch(getCurrentSongAction(441102548))
-  // },[dispatch])
+  
   useEffect(()=>{
     currentSong.id && (audioCtx.current.src = getPlaySong(currentSong.id))
     audioCtx.current.play().then(res => {
@@ -57,13 +56,19 @@ export default memo(function AppPlayerBar() {
   },[isPlaying])
   const currentTimeChangeListener = (e) => {
     if(!isSliding){
-      console.log('当前播放:',e.target.currentTime)
+      // console.log('当前播放:',e.target.currentTime)
       setCurrentTime(e.target.currentTime * 1000)
       let curPro = ((e.target.currentTime * 1000) / currentSong.dt)  * 100
-      console.log('进度',curPro)
+      // console.log('进度',curPro)
       setProgress(curPro)
     }
   }
+  const changeSong = useCallback((tag)=>{
+    dispatch(changeCurrentSongAndIndexAction(tag))
+  },[dispatch])
+  const changePlayMode = useCallback(()=>{
+    dispatch(changePlayModeAction())
+  },[dispatch])
   const onSliderChange = useCallback((val)=>{
     setIsSliding(true)
     const cur = val/100 * duration
@@ -77,15 +82,22 @@ export default memo(function AppPlayerBar() {
     setIsSliding(false)
     !isPlaying && handlePlay()
   },[duration,isPlaying,audioCtx,handlePlay])
-
+  const handleSongEnded = useCallback(()=>{
+    if(sequence === 2){
+      audioCtx.current.currentTime = 0
+      audioCtx.current.play()
+    }else{
+      dispatch(changeCurrentSongAndIndexAction(1))
+    }
+  },[sequence,dispatch])
 
   return (
     <PlaybarWrapper className='sprite_player ' >
       <div className='content wrap-v2'>
         <Control isPlaying={isPlaying}>
-          <button className='prev sprite_player '></button>
+          <button className='prev sprite_player ' onClick={e => changeSong(-1)}></button>
           <button className='play sprite_player ' onClick={e => handlePlay()}></button>
-          <button className='next sprite_player '></button>
+          <button className='next sprite_player ' onClick={e => changeSong(1)}></button>
         </Control>
         <PlayInfo>
           <div className='image'>
@@ -116,7 +128,7 @@ export default memo(function AppPlayerBar() {
             </div>
           </div>
         </PlayInfo>
-        <Operator>
+        <Operator sequence={sequence}>
           <div className='left'>
             <button className='btn sprite_player_lrc lrc'></button>
             <button className='btn sprite_player favor'></button>
@@ -124,13 +136,14 @@ export default memo(function AppPlayerBar() {
           </div>
           <div className="right sprite_player">
             <button className='volume btn sprite_player'></button>
-            <button className='loop btn sprite_player'></button>
-            <button className='playlist btn sprite_player'></button>
+            <button className='loop btn sprite_player' onClick={e => changePlayMode()}></button>
+            <button className='playlist btn sprite_player'>{playList.length}</button>
           </div>
         </Operator>
       </div>
       <audio ref={audioCtx} 
-             onTimeUpdate={currentTimeChangeListener}
+             onTimeUpdate={e=>currentTimeChangeListener(e)}
+             onEnded={e=> handleSongEnded()}
              ></audio>
     </PlaybarWrapper>
   )

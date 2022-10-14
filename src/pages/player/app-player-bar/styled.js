@@ -160,6 +160,7 @@ export const Operator = styled.div`
     width: 126px;
     padding-left: 13px;
     background-position: -147px -248px;
+    display: flex;
     
     .volume {
       background-position: -2px -248px;
@@ -183,11 +184,11 @@ export const Operator = styled.div`
         background-position: ${props => {
           switch(props.sequence) {
             case 1:
-              return "-96px -248px"
+              return "-93px -248px"
             case 2:
-              return "-96px -344px"
+              return "-93px -344px"
             default:
-              return "-33px -344px"
+              return "-30px -344px"
           }
         }};
       }
@@ -196,6 +197,9 @@ export const Operator = styled.div`
     .playlist {
       width: 59px;
       background-position: -42px -68px;
+      padding-left: 20px;
+      color:#666;
+      line-height: 25px;
       &:hover{
         background-position: -42px -98px;
       }
