@@ -19,7 +19,28 @@ export const PlaybarWrapper = styled.div`
     transform: translateX(-50%);
     bottom: 0;
     height: 48px;
+    .draw-lyric{
+      position: fixed;
+
+      width: auto;
+      height: 45px;
+      top:-50px;
+      left: 50%;
+      color:#fff;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 10px skyblue,0 0 15px skyblue;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: rgba(0,0,0,.6);
+      border-radius: 8px;
+      transition: all .5s;
+      ${props => props.showLyric ? 'display:flex;':'display:none;' }
+      justify-content: center;
+      align-items: center;
+    }
   }
+
 `
 
 export const Control = styled.div`

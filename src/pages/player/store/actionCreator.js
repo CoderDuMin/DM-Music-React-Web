@@ -1,7 +1,8 @@
-import { getSongDetail } from "../../../service/player"
+import { getSongDetail,getSongLyric } from "../../../service/player"
 
 import * as actionTypes from './constants'
 import { getRandom } from '@/utils/math-utils'
+import { parseLyric } from '@/utils/parse-lyric'
 
 const changeCurrentSongAction = (song) => ({
   type:actionTypes.CHANGE_CURRENT_SONG,
@@ -26,6 +27,24 @@ const changeSequenceAction = (index) => ({
   type:actionTypes.CHANGE_SEQUENCE,
   sequence:index
 })
+
+const changeLyricListAction = (lyric) => ({
+  type:actionTypes.CHANGE_LYRIC_LIST,
+  lyricList:lyric
+})
+
+// 对外暴露的action
+export const getSongLyricAction = (id) => {
+  return (dispatch) => {
+    getSongLyric(id).then(res => {
+      if(res.lrc){
+        const lyricList = parseLyric(res.lrc.lyric)
+        console.log('解析完的歌词',lyricList)
+        dispatch(changeLyricListAction(lyricList))
+      }
+    })
+  }
+}
 
 export const changePlayModeAction = () => {
   return (dispatch,getState) => {
@@ -60,6 +79,7 @@ export const changeCurrentSongAndIndexAction = (tag) => {
 
     dispatch(changeCurrentSongIndexAction(currentIndex))
     dispatch(changeCurrentSongAction(playList[currentIndex]))
+    dispatch(getSongLyricAction(playList[currentIndex].id))
 
   }
 }
@@ -72,6 +92,7 @@ export const getCurrentSongAction = (ids) =>{
       // 歌单中已有该歌曲
       dispatch(changeCurrentSongIndexAction(index))
       dispatch(changeCurrentSongAction(playList[index]))
+      dispatch(getSongLyricAction(playList[index].id))
     }
     else{
       getSongDetail(ids).then(res=>{
@@ -85,6 +106,7 @@ export const getCurrentSongAction = (ids) =>{
         dispatch(changeCurrentSongAction(song))
         dispatch(changeCurrentSongIndexAction(newPlayList.length - 1))
         dispatch(changePlayListAction(newPlayList))
+        dispatch(getSongLyricAction(song.id))
       })
     }
     

@@ -21,12 +21,15 @@ export default memo(function AppPlayerBar() {
   const [currentTime, setCurrentTime] = useState(0)
   const [progress, setProgress] = useState(0)
   const [isSliding, setIsSliding] = useState(false)
+  const [showLyric, setShowLyric] = useState(false)
+  const [currentLyric, setCurrentLyric] = useState('')
 
   // redux hooks
-  const {currentSong={},sequence=0,playList=[]} = useSelector(state => ({
+  const {currentSong={},sequence=0,playList=[],lyricList=[]} = useSelector(state => ({
     currentSong:state.getIn(['player','currentSong']),
     playList:state.getIn(['player','playList']),
     sequence:state.getIn(['player','sequence']),
+    lyricList:state.getIn(['player','lyricList'])
   }))
   const dispatch = useDispatch()
   // other hooks
@@ -54,27 +57,50 @@ export default memo(function AppPlayerBar() {
       isPlaying ? audioCtx.current.pause() : audioCtx.current.play()
       setIsPlaying(!isPlaying)
   },[isPlaying])
-  const currentTimeChangeListener = (e) => {
-    if(!isSliding){
-      // console.log('当前播放:',e.target.currentTime)
-      setCurrentTime(e.target.currentTime * 1000)
-      let curPro = ((e.target.currentTime * 1000) / currentSong.dt)  * 100
-      // console.log('进度',curPro)
-      setProgress(curPro)
-    }
-  }
+  
+  // 切歌:上一首 下一首
   const changeSong = useCallback((tag)=>{
     dispatch(changeCurrentSongAndIndexAction(tag))
   },[dispatch])
+  // 是否展示画中画歌词
+  const showDrawLyric = useCallback(() => {
+    setShowLyric(!showLyric)
+  },[showLyric])
+  // 改变播放模式
   const changePlayMode = useCallback(()=>{
     dispatch(changePlayModeAction())
   },[dispatch])
+  // 监听歌曲播放时间变化监听
+  const currentTimeChangeListener = useCallback((e) => {
+    if(!isSliding){
+      // console.log('当前播放:',e.target.currentTime)
+      setCurrentTime(e.target.currentTime * 1000)
+      let curPro = ((e.target.currentTime * 1000) / duration)  * 100
+      // console.log('进度',curPro)
+      setProgress(curPro)
+    }
+    if(showLyric){
+      let lyricIndex = lyricList.findIndex(item => item.time >= (e.target.currentTime * 1000))
+      if(lyricIndex === -1)return; 
+      if( lyricIndex === 0 ){
+        lyricIndex = 0
+      }else{
+        lyricIndex = lyricIndex -1 
+      } 
+      let lyric = lyricList[lyricIndex]
+      if(lyric.content !== currentLyric && lyric.content){
+        setCurrentLyric(lyric.content)
+      }
+    }
+  },[isSliding,showLyric,lyricList,currentLyric,duration])
+  // 歌曲进度条变更中监听
   const onSliderChange = useCallback((val)=>{
     setIsSliding(true)
     const cur = val/100 * duration
     setCurrentTime(cur)
     setProgress(val)
   },[duration])
+  // 歌曲进度条变更完成监听
   const onAfterSliderChange = useCallback((val)=>{
     const cur = val/100 * duration
     audioCtx.current.currentTime = cur / 1000
@@ -82,6 +108,7 @@ export default memo(function AppPlayerBar() {
     setIsSliding(false)
     !isPlaying && handlePlay()
   },[duration,isPlaying,audioCtx,handlePlay])
+  // 歌曲播放结束监听事件
   const handleSongEnded = useCallback(()=>{
     if(sequence === 2){
       audioCtx.current.currentTime = 0
@@ -92,12 +119,12 @@ export default memo(function AppPlayerBar() {
   },[sequence,dispatch])
 
   return (
-    <PlaybarWrapper className='sprite_player ' >
+    <PlaybarWrapper className='sprite_player '  showLyric={showLyric}>
       <div className='content wrap-v2'>
         <Control isPlaying={isPlaying}>
-          <button className='prev sprite_player ' onClick={e => changeSong(-1)}></button>
-          <button className='play sprite_player ' onClick={e => handlePlay()}></button>
-          <button className='next sprite_player ' onClick={e => changeSong(1)}></button>
+          <button className='prev sprite_player ' title="上一首" onClick={e => changeSong(-1)}></button>
+          <button className='play sprite_player ' title={isPlaying?'暂停':'播放'} onClick={e => handlePlay()}></button>
+          <button className='next sprite_player ' title="下一首" onClick={e => changeSong(1)}></button>
         </Control>
         <PlayInfo>
           <div className='image'>
@@ -130,21 +157,24 @@ export default memo(function AppPlayerBar() {
         </PlayInfo>
         <Operator sequence={sequence}>
           <div className='left'>
-            <button className='btn sprite_player_lrc lrc'></button>
-            <button className='btn sprite_player favor'></button>
-            <button className='btn sprite_player share'></button>
+            <button className='btn sprite_player_lrc lrc' title="画中画歌词" onClick={e => showDrawLyric()}></button>
+            <button className='btn sprite_player favor' title="收藏"></button>
+            <button className='btn sprite_player share' title="分享"></button>
           </div>
           <div className="right sprite_player">
-            <button className='volume btn sprite_player'></button>
-            <button className='loop btn sprite_player' onClick={e => changePlayMode()}></button>
-            <button className='playlist btn sprite_player'>{playList.length}</button>
+            <button className='volume btn sprite_player' title="音量"></button>
+            <button className='loop btn sprite_player' title={['顺序播放','随机播放','单曲循环'][sequence]} onClick={e => changePlayMode()}></button>
+            <button className='playlist btn sprite_player' title="播放列表">{playList.length}</button>
           </div>
         </Operator>
+        <div className='draw-lyric text-nowrap' >{currentLyric}</div>  
       </div>
       <audio ref={audioCtx} 
              onTimeUpdate={e=>currentTimeChangeListener(e)}
              onEnded={e=> handleSongEnded()}
              ></audio>
+      
+      
     </PlaybarWrapper>
   )
 })
