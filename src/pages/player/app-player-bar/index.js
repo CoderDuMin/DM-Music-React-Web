@@ -14,6 +14,7 @@ import { changeCurrentSongAndIndexAction,changePlayModeAction } from '../store/a
 import { useSelector } from 'react-redux';
 import { formatDate,getPlaySong,getSizeImage } from '@/utils/format-utils'
 import DefaultAlbumImg from '@/assets/img/default_album.jpg'
+import AppPlayerMenu from '../app-player-menu';
 
 export default memo(function AppPlayerBar() {
   // props and state
@@ -23,6 +24,7 @@ export default memo(function AppPlayerBar() {
   const [isSliding, setIsSliding] = useState(false)
   const [showLyric, setShowLyric] = useState(false)
   const [currentLyric, setCurrentLyric] = useState('')
+  const [showMenu, setShowMenu] = useState(false)
 
   // redux hooks
   const {currentSong={},sequence=0,playList=[],lyricList=[]} = useSelector(state => ({
@@ -164,7 +166,7 @@ export default memo(function AppPlayerBar() {
           <div className="right sprite_player">
             <button className='volume btn sprite_player' title="音量"></button>
             <button className='loop btn sprite_player' title={['顺序播放','随机播放','单曲循环'][sequence]} onClick={e => changePlayMode()}></button>
-            <button className='playlist btn sprite_player' title="播放列表">{playList.length}</button>
+            <button className='playlist btn sprite_player' title="播放列表" onClick={e => setShowMenu(!showMenu)}>{playList.length}</button>
           </div>
         </Operator>
         <div className='draw-lyric text-nowrap' >{currentLyric}</div>  
@@ -173,6 +175,7 @@ export default memo(function AppPlayerBar() {
              onTimeUpdate={e=>currentTimeChangeListener(e)}
              onEnded={e=> handleSongEnded()}
              ></audio>
+      <AppPlayerMenu isShow={showMenu} ></AppPlayerMenu>
       
       
     </PlaybarWrapper>
