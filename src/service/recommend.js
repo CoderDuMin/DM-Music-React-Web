@@ -36,3 +36,14 @@ export function getTopRanking(id){
         }
     })
 }
+
+export function getArtistByCat(cat=5001,limit=30){
+    return request({
+        url:'/artist/list',
+        method:'get',
+        params:{
+            cat,
+            limit
+        }
+    })
+}

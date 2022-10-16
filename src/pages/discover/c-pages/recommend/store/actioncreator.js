@@ -1,7 +1,8 @@
 import * as actionType from './constants'
 import { getTopBanners,
          getHotRecommend,
-         getNewAlbum 
+         getNewAlbum,
+         getArtistByCat 
         } from '@/service/recommend'
 import { getTopRanking } from '../../../../../service/recommend'
 
@@ -15,7 +16,7 @@ export const changeHotRecommendAction = (res) => ({
 })
 export const changeNewAlbumsAction = (res) => ({
     type:actionType.CHANGE_NEW_ALBUM,
-    newAlbums:res.weekData ? res.weekData.slice(0,15) : []
+    newAlbums:res.weekData ? res.monthData.slice(0,15) : []
 })
 export const changeHotRankingAction = (res) => ({
     type:actionType.CHANGE_HOT_RANKING,
@@ -28,6 +29,10 @@ export const changeNewRankingAction = (res) => ({
 export const changeOriginRankingAction = (res) => ({
     type:actionType.CHANGE_ORIGIN_RANKING,
     originRanking:res.playlist
+})
+export const changeSettleSinger = (atrists) => ({
+    type:actionType.CHANGE_SETTLE_SINGER,
+    settleSinger:atrists
 })
 
 
@@ -74,6 +79,15 @@ export const getRankingsAction = (id) => {
                     break;
                 default:
             }
+        })
+    }
+}
+
+export const getSettleSingerAction = (cat) => {
+    return dispatch => {
+        getArtistByCat(cat).then(res => {
+            console.log(res.artists)
+            dispatch(changeSettleSinger(res.artists.slice(0,5)))
         })
     }
 }
