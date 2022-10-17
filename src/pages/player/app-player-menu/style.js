@@ -1,13 +1,29 @@
 import styled from 'styled-components'
 
 export const PlayerMenuWrapper = styled.div`
-  position: fixed;
+  position: absolute;
   left: 50%;
+  bottom: 46px;
   transform: translateX(-50%);
-  width:986px;
-  height: 300px;
-  bottom:50px;
-  border-radius: 8px 8px 0 0;
-  background-color: rgba(0,0,0,.8);
+  width: 986px;
+  height: 301px;
+  color: #e2e2e2;
   ${props => props.isShow ? 'display:block;':'display:none;'}
+  .main {
+    position: relative;
+    display: flex;
+    height: 260px;
+    overflow: hidden;
+    background: url(${require("@/assets/img/playpanel_bg.png")}) -1014px 0 repeat-y;
+
+    .image {
+      position: absolute;
+      left: 2px;
+      top: -360px;
+      width: 980px;
+      height: auto;
+      opacity: .2;
+    }
+  }
+  
 `
