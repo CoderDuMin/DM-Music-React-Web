@@ -25,6 +25,8 @@ export default memo(function AppPlayerBar() {
   const [showLyric, setShowLyric] = useState(false)
   const [currentLyric, setCurrentLyric] = useState('')
   const [showMenu, setShowMenu] = useState(false)
+  const [showVolumeBar,setShowVolumeBar] = useState(false)
+  const [volume,setVolume] = useState(100)
 
   // redux hooks
   const {currentSong={},sequence=0,playList=[],lyricList=[]} = useSelector(state => ({
@@ -120,6 +122,12 @@ export default memo(function AppPlayerBar() {
     }
   },[sequence,dispatch])
 
+    // 歌曲进度条变更中监听
+    const onVolumeSliderChange = useCallback((val)=>{
+      audioCtx.current.volume = val/100
+      setVolume(val)
+    },[audioCtx])
+
   return (
     <PlaybarWrapper className='sprite_player '  showLyric={showLyric}>
       <div className='content wrap-v2'>
@@ -157,16 +165,23 @@ export default memo(function AppPlayerBar() {
             </div>
           </div>
         </PlayInfo>
-        <Operator sequence={sequence}>
+        <Operator sequence={sequence} showVolume={showVolumeBar}>
           <div className='left'>
             <button className='btn sprite_player_lrc lrc' title="画中画歌词" onClick={e => showDrawLyric()}></button>
             <button className='btn sprite_player favor' title="收藏"></button>
             <button className='btn sprite_player share' title="分享"></button>
           </div>
           <div className="right sprite_player">
-            <button className='volume btn sprite_player' title="音量"></button>
+            <button className='volume btn sprite_player' title="音量" onClick={e => setShowVolumeBar(!showVolumeBar)}>
+            </button>
             <button className='loop btn sprite_player' title={['顺序播放','随机播放','单曲循环'][sequence]} onClick={e => changePlayMode()}></button>
             <button className='playlist btn sprite_player' title="播放列表" onClick={e => setShowMenu(!showMenu)}>{playList.length}</button>
+            <div className='volume-bar'>
+                <div className='bgbar sprite_player'></div>
+                <Slider vertical  value={volume} 
+                        onChange={onVolumeSliderChange}
+                          />
+              </div>
           </div>
         </Operator>
         <div className='draw-lyric text-nowrap' >{currentLyric}</div>  

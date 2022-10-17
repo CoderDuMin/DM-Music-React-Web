@@ -182,12 +182,17 @@ export const Operator = styled.div`
     padding-left: 13px;
     background-position: -147px -248px;
     display: flex;
+    position: relative;
+
     
     .volume {
       background-position: -2px -248px;
+      position: relative;
+      
       &:hover{
         background-position: -31px -248px;
       }
+      
     }
 
     .loop {
@@ -209,7 +214,7 @@ export const Operator = styled.div`
             case 2:
               return "-93px -344px"
             default:
-              return "-30px -344px"
+              return "-33px -344px"
           }
         }};
       }
@@ -225,5 +230,34 @@ export const Operator = styled.div`
         background-position: -42px -98px;
       }
     }
+
+    .volume-bar{
+        position: absolute;
+        display: ${props => props.showVolume ? 'block;' : 'none;'};
+        top: -126px;
+        width: 32px;
+        height: 113px;
+        .bgbar{
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 32px;
+          height: 113px;
+          background-position: 0 -503px;
+        }
+        .ant-slider {
+          width: 32px;
+          /* margin-right: 10px; */
+          height: 95px;
+          margin-top: 10px;
+        }
+        .ant-slider-track,.ant-slider:hover .ant-slider-track{
+          background-color: #C60C0C;
+        }
+        .ant-slider-handle{
+          /* border-color: #fff; */
+        }
+      }
   }
 `

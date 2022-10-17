@@ -15,7 +15,7 @@ export default memo(function PlayList() {
       {
         playList.map((item,index) => {
           return (
-            <div className={calssnames("play-item",{'active': index === 1})}>
+            <div className={calssnames("play-item",{'active': index === 1})} key={item.id}>
               <div className="left">{item.name}</div>
               <div className="right">
                 <span className="singer text-nowrap">{item.ar[0].name}</span>
