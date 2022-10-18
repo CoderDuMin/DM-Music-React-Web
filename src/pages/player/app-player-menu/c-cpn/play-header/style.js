@@ -51,4 +51,19 @@ export const HeaderRight = styled.div`
   text-align: center;
   color: #fff;
   font-size: 14px;
+  position: relative;
+  .close{
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    text-indent: -999px;
+    cursor: pointer;
+    background-position: -195px 9px;
+    &:hover{
+      background-position: -195px -21px;
+    }
+  }
 `

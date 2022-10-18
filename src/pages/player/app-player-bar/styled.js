@@ -40,6 +40,7 @@ export const PlaybarWrapper = styled.div`
       align-items: center;
     }
   }
+  
 
 `
 
@@ -230,34 +231,35 @@ export const Operator = styled.div`
         background-position: -42px -98px;
       }
     }
-
+    
     .volume-bar{
+      position: fixed;
+      display: ${props => props.showVolume ? 'block;' : 'none;'};
+      top: -112px;
+      width: 32px;
+      height: 113px;
+      z-index:999;
+      .bgbar{
         position: absolute;
-        display: ${props => props.showVolume ? 'block;' : 'none;'};
-        top: -126px;
+        left: 0;
+        right: 0;
+        bottom: 0;
         width: 32px;
         height: 113px;
-        .bgbar{
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          width: 32px;
-          height: 113px;
-          background-position: 0 -503px;
-        }
-        .ant-slider {
-          width: 32px;
-          /* margin-right: 10px; */
-          height: 95px;
-          margin-top: 10px;
-        }
-        .ant-slider-track,.ant-slider:hover .ant-slider-track{
-          background-color: #C60C0C;
-        }
-        .ant-slider-handle{
-          /* border-color: #fff; */
-        }
+        background-position: 0 -503px;
       }
+      .ant-slider {
+        width: 32px;
+        /* margin-right: 10px; */
+        height: 95px;
+        margin-top: 10px;
+      }
+      .ant-slider-track,.ant-slider:hover .ant-slider-track{
+        background-color: #C60C0C;
+      }
+      .ant-slider-handle{
+        /* border-color: #fff; */
+      }
+    }
   }
 `

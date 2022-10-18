@@ -10,7 +10,7 @@ import {
   PlayInfo,
   Operator
  } from './styled'
-import { changeCurrentSongAndIndexAction,changePlayModeAction } from '../store/actionCreator';
+import { changeCurrentLyricIndexAction, changeCurrentSongAndIndexAction,changePlayModeAction } from '../store/actionCreator';
 import { useSelector } from 'react-redux';
 import { formatDate,getPlaySong,getSizeImage } from '@/utils/format-utils'
 import DefaultAlbumImg from '@/assets/img/default_album.jpg'
@@ -83,7 +83,7 @@ export default memo(function AppPlayerBar() {
       // console.log('进度',curPro)
       setProgress(curPro)
     }
-    if(showLyric){
+    if(true){
       let lyricIndex = lyricList.findIndex(item => item.time >= (e.target.currentTime * 1000))
       if(lyricIndex === -1)return; 
       if( lyricIndex === 0 ){
@@ -94,9 +94,10 @@ export default memo(function AppPlayerBar() {
       let lyric = lyricList[lyricIndex]
       if(lyric.content !== currentLyric && lyric.content){
         setCurrentLyric(lyric.content)
+        dispatch(changeCurrentLyricIndexAction(lyricIndex))
       }
     }
-  },[isSliding,showLyric,lyricList,currentLyric,duration])
+  },[isSliding,lyricList,currentLyric,duration,dispatch])
   // 歌曲进度条变更中监听
   const onSliderChange = useCallback((val)=>{
     setIsSliding(true)
@@ -129,7 +130,7 @@ export default memo(function AppPlayerBar() {
     },[audioCtx])
 
   return (
-    <PlaybarWrapper className='sprite_player '  showLyric={showLyric}>
+    <PlaybarWrapper className='sprite_player '  showLyric={showLyric} >
       <div className='content wrap-v2'>
         <Control isPlaying={isPlaying}>
           <button className='prev sprite_player ' title="上一首" onClick={e => changeSong(-1)}></button>
@@ -177,12 +178,13 @@ export default memo(function AppPlayerBar() {
             <button className='loop btn sprite_player' title={['顺序播放','随机播放','单曲循环'][sequence]} onClick={e => changePlayMode()}></button>
             <button className='playlist btn sprite_player' title="播放列表" onClick={e => setShowMenu(!showMenu)}>{playList.length}</button>
             <div className='volume-bar'>
-                <div className='bgbar sprite_player'></div>
-                <Slider vertical  value={volume} 
-                        onChange={onVolumeSliderChange}
-                          />
-              </div>
+              <div className='bgbar sprite_player'></div>
+              <Slider vertical  value={volume} 
+                      onChange={onVolumeSliderChange}
+                        />
+            </div>
           </div>
+          
         </Operator>
         <div className='draw-lyric text-nowrap' >{currentLyric}</div>  
       </div>
@@ -190,7 +192,7 @@ export default memo(function AppPlayerBar() {
              onTimeUpdate={e=>currentTimeChangeListener(e)}
              onEnded={e=> handleSongEnded()}
              ></audio>
-      <AppPlayerMenu isShow={showMenu} ></AppPlayerMenu>
+      <AppPlayerMenu isShow={showMenu} hide={e => setShowMenu(false)} ></AppPlayerMenu>
       
       
     </PlaybarWrapper>

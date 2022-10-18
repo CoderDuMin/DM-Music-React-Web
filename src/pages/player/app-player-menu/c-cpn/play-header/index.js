@@ -7,7 +7,7 @@ import {
   HeaderRight
 } from './style';
 
-export default memo(function PlayHeader() {
+export default memo(function PlayHeader(props) {
   const { playList, currentSong } = useSelector(state => ({
     playList: state.getIn(["player", "playList"]),
     currentSong: state.getIn(["player", "currentSong"])
@@ -30,6 +30,7 @@ export default memo(function PlayHeader() {
       </HeaderLeft>
       <HeaderRight>
         {currentSong.name}
+        <span className='close sprite_playlist_bar' onClick={e => props.handleClose()} ></span>
       </HeaderRight>
     </HeaderWrapper>
   )

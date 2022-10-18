@@ -8,7 +8,7 @@ export default memo(function index(props) {
   const { isShow } = props
   return (
     <PlayerMenuWrapper isShow={isShow} className="wrap-v2">
-      <PlayHeader></PlayHeader>
+      <PlayHeader handleClose={e => props.hide()}></PlayHeader>
       <div className="main">
         <img className="image" src="https://p4.music.126.net/qeN7o2R3_OTPhghmkctFBQ==/764160591569856.jpg" alt=""/>
         <PlayList></PlayList>

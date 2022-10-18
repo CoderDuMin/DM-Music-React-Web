@@ -33,6 +33,11 @@ const changeLyricListAction = (lyric) => ({
   lyricList:lyric
 })
 
+export const changeCurrentLyricIndexAction = (index) => ({
+  type:actionTypes.CHANGE_CURRENT_LYRIC_INDEX,
+  currentLyricIndex:index
+})
+
 // 对外暴露的action
 export const getSongLyricAction = (id) => {
   return (dispatch) => {
@@ -135,6 +140,10 @@ export const removeSongInPlayList = (index) => {
     if(index === currentSongIndex){
       // 切歌
       dispatch(changeCurrentSongAndIndexAction(1))
+      if(playList.length > index){
+        dispatch(changeCurrentSongIndexAction(index))
+      }
+      
     }
     if(index < currentSongIndex){
       dispatch(changeCurrentSongIndexAction(currentSongIndex - 1))
@@ -144,3 +153,4 @@ export const removeSongInPlayList = (index) => {
     dispatch(changePlayListAction(newPlayList))
   }
 }
+
