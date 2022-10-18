@@ -112,3 +112,35 @@ export const getCurrentSongAction = (ids) =>{
     
   }
 }
+
+export const playSongInPlayListByIndexAction = (index) => {
+  return (dispatch,getState) => {
+    const playList = getState().getIn(['player','playList'])
+    const currentSongIndex = getState().getIn(['player','currentSongIndex'])
+    if(currentSongIndex === index){
+      return;
+    }
+    dispatch(changeCurrentSongIndexAction(index))
+    dispatch(changeCurrentSongAction(playList[index]))
+    dispatch(getSongLyricAction(playList[index].id))
+
+  }
+}
+
+// 移除歌单歌曲
+export const removeSongInPlayList = (index) => {
+  return (dispatch,getState) => {
+    const playList = getState().getIn(['player','playList'])
+    const currentSongIndex = getState().getIn(['player','currentSongIndex'])
+    if(index === currentSongIndex){
+      // 切歌
+      dispatch(changeCurrentSongAndIndexAction(1))
+    }
+    if(index < currentSongIndex){
+      dispatch(changeCurrentSongIndexAction(currentSongIndex - 1))
+    }
+    let newPlayList = [...playList]
+    newPlayList.splice(index,1)
+    dispatch(changePlayListAction(newPlayList))
+  }
+}

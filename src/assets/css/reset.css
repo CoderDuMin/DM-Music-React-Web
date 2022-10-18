@@ -113,6 +113,13 @@
   .sprite_player_lrc{
     background: url(../img/drawLrc.png) no-repeat 0 9999px;
   }
+
+  .sprite_playlist {
+    background: url(../img/playlist_sprite.png) no-repeat 0 9999px;
+  }
+  .sprite_playlist_bar {
+    background: url(../img/playlist-bar.png) no-repeat 0 9999px;
+  }
   
   .lyric-class .ant-message-notice-content {
     position: fixed;
