@@ -58,9 +58,18 @@ export default memo(function AppPlayerBar() {
   const showSongPicUrl = currentSong.al ? getSizeImage(currentSong.al.picUrl,34) : ''
   // handle function
   const handlePlay = useCallback(()=>{
+    if(Object.keys(currentSong).length>0){
       isPlaying ? audioCtx.current.pause() : audioCtx.current.play()
       setIsPlaying(!isPlaying)
-  },[isPlaying])
+    }else{
+      if(playList.length > 0){
+        dispatch(changeCurrentSongAndIndexAction(1))
+      }else{
+        console.log('当前歌单没有歌曲,无法播放')
+      }
+    }
+      
+  },[isPlaying,currentSong,playList,dispatch])
   
   // 切歌:上一首 下一首
   const changeSong = useCallback((tag)=>{

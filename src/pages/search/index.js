@@ -1,6 +1,6 @@
 import React, { memo, useCallback,useState } from 'react'
 // import { AudioOutlined } from '@ant-design/icons';
-import { Input,Tabs,Table } from 'antd';
+import { Input,Tabs} from 'antd';
 
 import { SearchPageWrapper } from './style'
 import { querySongsByKeywords } from '../../service/songs';
