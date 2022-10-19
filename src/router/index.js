@@ -10,6 +10,7 @@ import DMDjRadio from '../pages/discover/c-pages/djradio'
 import DMArtist from '../pages/discover/c-pages/artist'
 import DMAlbum from '../pages/discover/c-pages/album'
 import SongDetail from '@/pages/player'
+import SearchPage from '@/pages/search'
 
 const routes =[
     {
@@ -68,6 +69,10 @@ const routes =[
     {
         path:'/mine',
         component: Mine
+    },
+    {
+      path:'/search',
+      component: SearchPage
     }
 ]
 

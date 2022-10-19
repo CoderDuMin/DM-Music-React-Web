@@ -154,3 +154,26 @@ export const removeSongInPlayList = (index) => {
   }
 }
 
+// 添加歌曲进歌单
+export const addSongInPlayListAction = (ids) =>{
+  return (dispatch,getState) => {
+    const playList = getState().getIn(['player','playList'])
+    let index = playList.findIndex(item => item.id === ids)
+    if(index !== -1){
+      return;
+    }
+    else{
+      getSongDetail(ids).then(res=>{
+        if(!res.songs) {
+          // 没有找到歌曲
+          console.log('没有找到歌曲');
+          return ;
+        }
+        let song = res.songs[0]
+        let newPlayList = [...playList,song]
+        dispatch(changePlayListAction(newPlayList))
+      })
+    }
+    
+  }
+}

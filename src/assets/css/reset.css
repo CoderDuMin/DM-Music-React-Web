@@ -120,6 +120,9 @@
   .sprite_playlist_bar {
     background: url(../img/playlist-bar.png) no-repeat 0 9999px;
   }
+  .sprite_btns {
+    background: url(../img/sprite_btns.png) no-repeat 0 9999px;
+  }
   
   .lyric-class .ant-message-notice-content {
     position: fixed;

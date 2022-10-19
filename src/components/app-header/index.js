@@ -43,7 +43,9 @@ const AppHeader = memo(() => {
                 </div>
             </HeaderLeft>
             <HeaderRight>
-                <Input className='search' placeholder="音乐/视频/电台/用户" prefix={<SearchOutlined />} />
+                <NavLink to="/search">
+                    <Input className='search' placeholder="音乐/视频/电台/用户" prefix={<SearchOutlined />} />
+                </NavLink>
                 <div className='center'>创作者中心</div>
                 <div className='login'>登录</div>
             </HeaderRight>
