@@ -5,6 +5,102 @@ import * as actionTypes from './constants'
 const defaultState = Map({
   playList:[
     {
+      "name": "若把你",
+      "id": 865632948,
+      "pst": 0,
+      "t": 0,
+      "ar": [
+        {
+          "id": 12499721,
+          "name": "Kirsty刘瑾睿",
+          "tns": [
+            
+          ],
+          "alias": [
+            
+          ]
+        }
+      ],
+      "alia": [
+        
+      ],
+      "pop": 100,
+      "st": 0,
+      "rt": null,
+      "fee": 8,
+      "v": 26,
+      "crbt": null,
+      "cf": "",
+      "al": {
+        "id": 71783637,
+        "name": "若把你",
+        "picUrl": "https://p1.music.126.net/M877M2-VhWZiLPVFORf9iQ==/109951163401482434.jpg",
+        "tns": [
+          
+        ],
+        "pic_str": "109951163401482434",
+        "pic": 109951163401482430
+      },
+      "dt": 189351,
+      "h": {
+        "br": 320000,
+        "fid": 0,
+        "size": 7576599,
+        "vd": -23895,
+        "sr": 44100
+      },
+      "m": {
+        "br": 192000,
+        "fid": 0,
+        "size": 4545977,
+        "vd": -23895,
+        "sr": 44100
+      },
+      "l": {
+        "br": 128000,
+        "fid": 0,
+        "size": 3030666,
+        "vd": -23895,
+        "sr": 44100
+      },
+      "sq": {
+        "br": 697514,
+        "fid": 0,
+        "size": 16509459,
+        "vd": -23895,
+        "sr": 44100
+      },
+      "hr": null,
+      "a": null,
+      "cd": "01",
+      "no": 1,
+      "rtUrl": null,
+      "ftype": 0,
+      "rtUrls": [
+        
+      ],
+      "djId": 0,
+      "copyright": 0,
+      "s_id": 0,
+      "mark": 64,
+      "originCoverType": 1,
+      "originSongSimpleData": null,
+      "tagPicList": null,
+      "resourceState": true,
+      "version": 26,
+      "songJumpInfo": null,
+      "entertainmentTags": null,
+      "awardTags": null,
+      "single": 0,
+      "noCopyrightRcmd": null,
+      "mv": 0,
+      "rtype": 0,
+      "rurl": null,
+      "mst": 9,
+      "cp": 0,
+      "publishTime": 1531267200000
+    },
+    {
       "name": "温柔",
       "id": 386538,
       "pst": 0,
@@ -303,10 +399,13 @@ const defaultState = Map({
     }
   ],
   currentSongIndex:-1,
-  currentSong:{},
+  currentSong: {},
   sequence:0,//0 顺序播放 1 随机播放 2单曲循环
   lyricList:[],
-  currentLyricIndex:0
+  currentLyricIndex:0,
+  simiPlaylist:[],//包含这首歌的歌单
+  simiSongs: [],//相似歌曲
+  songComments:[],//歌曲评论
 })
 
 function reducer(state=defaultState,action){
@@ -323,6 +422,12 @@ function reducer(state=defaultState,action){
       return state.set('lyricList',action.lyricList)
     case actionTypes.CHANGE_CURRENT_LYRIC_INDEX:
       return state.set('currentLyricIndex',action.currentLyricIndex)
+    case actionTypes.CHANGE_SIMI_PLAYLIST:
+      return state.set('simiPlaylist',action.simiPlaylist)
+    case actionTypes.CHANGE_SIMI_SONGS:
+      return state.set('simiSongs',action.simiSongs)
+    case actionTypes.CHANGE_SONG_COMMENTS:
+      return state.set('songComments',action.songComments)
     default:
       return state
   }

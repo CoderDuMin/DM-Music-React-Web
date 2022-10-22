@@ -148,7 +148,7 @@ export default memo(function AppPlayerBar() {
         </Control>
         <PlayInfo>
           <div className='image'>
-          <NavLink to={'/discover/songDetail'}>
+          <NavLink to={'/discover/songDetail/1111'}>
             <img src={showSongPicUrl || DefaultAlbumImg} alt="" />
           </NavLink>
             <a href="/#" >

@@ -69,7 +69,7 @@ export default memo(function SearchPage() {
           {
             result.map((item,index)=>{
               return (
-                <div className="item" key={item.id}>
+                <div className="item" key={item.id} onDoubleClick={e => handlePlaytheSong(item.id)}>
                   <div className="left">
                     <div className='play-btn sprite_table' onClick={e => handlePlaytheSong(item.id)}></div>
                     <span>{item.name}</span>

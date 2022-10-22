@@ -15,3 +15,30 @@ export function getSongLyric(id){
     params:{id},
   })
 }
+
+export function getSimiPlaylist(id) {
+  return request({
+    url: "/simi/playlist",
+    params: {
+      id
+    }
+  })
+}
+
+export function getSimiSong(id) {
+  return request({
+    url: "/simi/song",
+    params: {
+      id
+    }
+  })
+}
+export function getSongComments(id){
+  return request({
+    url: "/comment/music",
+    params: {
+      id,
+      limit:20
+    }
+  })
+}

@@ -57,7 +57,7 @@ const routes =[
               component: DMAlbum
             },
             {
-              path: "/discover/songDetail",
+              path: "/discover/songDetail/:id",
               component: SongDetail
             },
           ]

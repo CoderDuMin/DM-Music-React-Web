@@ -1,4 +1,4 @@
-import { getSongDetail,getSongLyric } from "../../../service/player"
+import { getSimiPlaylist, getSimiSong, getSongComments, getSongDetail,getSongLyric } from "../../../service/player"
 
 import * as actionTypes from './constants'
 import { getRandom } from '@/utils/math-utils'
@@ -36,6 +36,21 @@ const changeLyricListAction = (lyric) => ({
 export const changeCurrentLyricIndexAction = (index) => ({
   type:actionTypes.CHANGE_CURRENT_LYRIC_INDEX,
   currentLyricIndex:index
+})
+
+export const changeSimiPlayListAction = (res) => ({
+  type:actionTypes.CHANGE_SIMI_PLAYLIST,
+  simiPlaylist:res
+})
+
+export const changeSimiSongsAction = (res) => ({
+  type:actionTypes.CHANGE_SIMI_SONGS,
+  simiSongs:res
+})
+
+export const changeSongCommentsAction = (res) => ({
+  type:actionTypes.CHANGE_SONG_COMMENTS,
+  songComments:res
 })
 
 // 对外暴露的action
@@ -175,5 +190,39 @@ export const addSongInPlayListAction = (ids) =>{
       })
     }
     
+  }
+}
+
+// 获取相似歌单
+export const getSimiPlayListAction = () => {
+  return (dispatch,getState) => {
+    const id = getState().getIn(["player", "currentSong"]).id;
+    if (!id) return;
+    getSimiPlaylist(id).then(res => {
+      return dispatch(changeSimiPlayListAction(res.playlists))
+    })
+   
+  }
+}
+
+// 获取相似歌曲
+export const getSimiSongsAction = () => {
+  return (dispatch,getState) => {
+    const id = getState().getIn(["player", "currentSong"]).id;
+    if (!id) return;
+    getSimiSong(id).then(res => {
+      return dispatch(changeSimiSongsAction(res.songs))
+    })
+  }
+}
+
+// 获取歌曲评论信息
+export const getSongCommentsAction = (id) => {
+  return (dispatch,getState) => {
+    const id = getState().getIn(["player", "currentSong"]).id;
+    if (!id) return;
+    getSongComments(id).then(res => {
+      return dispatch(changeSongCommentsAction(res.hotComments))
+    })
   }
 }
