@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import { DetailLeft, DetailRight, SongDetailWrapper } from './style'
 import PlayerInfo from './c-cpns/player-info'
 import PlaySimiPlayList from './c-cpns/player-simi-playlist'

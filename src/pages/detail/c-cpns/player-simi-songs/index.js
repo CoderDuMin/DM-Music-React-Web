@@ -2,6 +2,7 @@ import React, { memo,useEffect,useState } from 'react'
 import ThemeHeaderPlayer from '@/components/theme-header-player'
 import { getSimiSong } from '../../../../service/player'
 import { SimiSongsWrapper } from './styled'
+import { NavLink } from 'react-router-dom'
 
 export default memo(function SimiSongs(props) {
   // state and props
@@ -25,9 +26,11 @@ export default memo(function SimiSongs(props) {
             return (
               <div className="song-item" key={item.id}>
                 <div className="info">
-                  <div className="title">
-                    <a href="/abc">{item.name}</a>
-                  </div>
+                  <NavLink to={`/discover/songDetail/${item.id}`}>
+                    <div className="title" >
+                      <span>{item.name}</span>
+                    </div>
+                  </NavLink>
                   <div className="artist">
                     <a href="/abc">{item.artists[0].name}</a>
                   </div>

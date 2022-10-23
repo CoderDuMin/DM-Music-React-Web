@@ -14,6 +14,7 @@ export const OperationBarWrapper = styled.div`
       height: 31px;
       line-height: 31px;
       background-position: right -428px;
+      cursor: pointer;
 
       .play {
         color: #fff;
@@ -40,6 +41,7 @@ export const OperationBarWrapper = styled.div`
       padding-right: 0;
       background-position: 0 -1588px;
       text-indent: -9999px;
+      cursor: pointer;
     }
   }
 

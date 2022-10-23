@@ -173,7 +173,7 @@ export const removeSongInPlayList = (index) => {
 export const addSongInPlayListAction = (ids) =>{
   return (dispatch,getState) => {
     const playList = getState().getIn(['player','playList'])
-    let index = playList.findIndex(item => item.id === ids)
+    let index = playList.findIndex(item => item.id === (ids-0))
     if(index !== -1){
       return;
     }

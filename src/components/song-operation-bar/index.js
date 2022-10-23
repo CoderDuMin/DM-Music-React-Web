@@ -8,13 +8,13 @@ export default memo(function SongOperationBar(props) {
   return (
     <OperationBarWrapper>
       <span className="play">
-        <a href="/abc" className="play-icon sprite_button">
+        <span className="play-icon sprite_button" onClick={e => props.playSong()}>
           <span className="play sprite_button">
             <i className="sprite_button"></i>
             <span>播放</span>
           </span>
-        </a>
-        <a href="/abc" className="add-icon sprite_button">+</a>
+        </span>
+        <span className="add-icon sprite_button" onClick={e => props.addPlayList()}>+</span>
       </span>
       <a href="/abc" className="item sprite_button">
         <i className="icon favor-icon sprite_button">{favorTitle}</i>

@@ -12,9 +12,7 @@ export const SimiSongsWrapper = styled.div`
 
     .info {
       .title {
-        a {
           color: #333;
-        }
       }
 
       .artist {

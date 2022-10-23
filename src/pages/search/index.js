@@ -6,6 +6,7 @@ import { SearchPageWrapper } from './style'
 import { querySongsByKeywords } from '../../service/songs';
 import { useDispatch } from 'react-redux';
 import { addSongInPlayListAction, getCurrentSongAction } from '../player/store/actionCreator';
+import { NavLink } from 'react-router-dom';
 
 const { Search } = Input;
 
@@ -72,7 +73,9 @@ export default memo(function SearchPage() {
                 <div className="item" key={item.id} onDoubleClick={e => handlePlaytheSong(item.id)}>
                   <div className="left">
                     <div className='play-btn sprite_table' onClick={e => handlePlaytheSong(item.id)}></div>
-                    <span>{item.name}</span>
+                    <NavLink to={`/discover/songDetail/${item.id}`}>
+                      <span>{item.name}</span>
+                    </NavLink>
                   </div>
                   <div className="operator">
                     <i className='add btn sprite_btns' title='添加到播放列表' onClick={e => handleAddSong(item.id)}></i>

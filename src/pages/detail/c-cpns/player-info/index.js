@@ -1,7 +1,5 @@
-import React, { memo, useEffect, useState } from 'react';
-
-import { getSizeImage } from '@/utils/format-utils';
-import { parseLyric } from '@/utils/parse-lyric'
+import React, { memo, useEffect, useState,useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import SongOperationBar from '@/components/song-operation-bar';
 import {
@@ -10,6 +8,10 @@ import {
   InfoRight
 } from './style';
 import { getSongDetail, getSongLyric } from '../../../../service/player';
+import { getCurrentSongAction,addSongInPlayListAction } from '@/pages/player/store/actionCreator'
+import { getSizeImage } from '@/utils/format-utils';
+import { parseLyric } from '@/utils/parse-lyric'
+
 
 export default memo(function PlayerInfo(props) {
   // props and hooks
@@ -18,9 +20,17 @@ export default memo(function PlayerInfo(props) {
   const [songDetail, setSongDetail] = useState(null)
   const [songLyric, setSongLyric] = useState(null)
 
+  // redux hooks
+  const dispatch = useDispatch()
+  const playTheSong = useCallback(() => {
+    dispatch(getCurrentSongAction(id))
+  },[dispatch,id])
+  const addPlayList = useCallback(() => {
+    dispatch(addSongInPlayListAction(id))
+  },[dispatch,id])
+
   //other hooks 
   useEffect(()=>{
-    console.log('id变更,请求歌曲信息',id,props)
     if(!id) return;
     getSongDetail(id).then(res=>{
       console.log('歌曲详情',res.songs[0])
@@ -61,10 +71,12 @@ export default memo(function PlayerInfo(props) {
           <a href="/#" className="name">{songDetail.al.name}</a>
         </div>
 
-        <SongOperationBar favorTitle="收藏"
+        <SongOperationBar   favorTitle="收藏"
                             shareTitle="分享"
                             downloadTitle="下载"
-                            commentTitle="(167366)"/>
+                            commentTitle="(167366)"
+                            playSong={e => playTheSong()}
+                            addPlayList={e => addPlayList()}/>
 
         <div className="lyric">
           <div className="lyric-info">
