@@ -9,7 +9,8 @@ import DMSongs from '@/pages/discover/c-pages/songs'
 import DMDjRadio from '../pages/discover/c-pages/djradio'
 import DMArtist from '../pages/discover/c-pages/artist'
 import DMAlbum from '../pages/discover/c-pages/album'
-import SongDetail from '@/pages/player'
+// import SongDetail from '@/pages/player'
+import SongDetail from '@/pages/detail'
 import SearchPage from '@/pages/search'
 
 const routes =[
