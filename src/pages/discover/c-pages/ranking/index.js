@@ -1,7 +1,10 @@
 import React, { memo, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import RankHeader from './c-cpns/rank-header'
+import RankList from './c-cpns/rank-list'
+import TopRank from './c-cpns/top-rank'
 import { getTopListAction } from './store/actionCreator'
-import { RankingWrapper } from './style'
+import { RankingLeft, RankingRight, RankingWrapper } from './style'
 
 const Ranking = memo(() => {
   // redux hook
@@ -12,8 +15,14 @@ const Ranking = memo(() => {
   },[dispatch])
 
   return (
-    <RankingWrapper>
-      Ranking
+    <RankingWrapper className="wrap-v2">
+      <RankingLeft>
+        <TopRank></TopRank>
+      </RankingLeft>
+      <RankingRight>
+        <RankHeader></RankHeader>
+        <RankList></RankList>
+      </RankingRight>
     </RankingWrapper>
   )
 })

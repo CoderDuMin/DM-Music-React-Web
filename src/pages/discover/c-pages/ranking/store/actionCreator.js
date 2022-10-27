@@ -35,3 +35,13 @@ export const getPlayListAction = (id)=>{
     })
   }
 }
+
+export const changeIndexAndPlayListAction = (index) => {
+  return (dispatch,getState) => {
+    const topList = getState().getIn(['ranking','topList'])
+    
+    dispatch(changeCurrentIndexAction(index))
+    dispatch(getPlayListAction(topList[index].id))
+
+  }
+}
