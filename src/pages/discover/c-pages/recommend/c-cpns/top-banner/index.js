@@ -11,7 +11,7 @@ export default memo(function Banner(props) {
   // state
   const [currentIndex,setCurrentIndex] = useState(0)
   // 组件和redux关联: 获取数据和进行操作
-  const {topBanners} = useSelector(state => ({
+  const {topBanners=[]} = useSelector(state => ({
     topBanners:state.getIn(['recommend','topBanners'])
   }),shallowEqual)
   const dispatch = useDispatch()
@@ -28,7 +28,7 @@ export default memo(function Banner(props) {
   },[])
   
   // 其他业务逻辑
-  const bgImage = topBanners[currentIndex] && (topBanners[currentIndex].imageUrl+"?imageView&blur=40x20")
+  const bgImage = topBanners[currentIndex] && (topBanners[currentIndex]?.imageUrl+"?imageView&blur=40x20")
 
   // jsx代码
   return (

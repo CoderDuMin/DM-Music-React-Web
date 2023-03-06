@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
  
 export default memo(function TopRanking(props) {
-  const {info} = props
+  const {info={}} = props
   const { tracks = [] } = info
 
   // redux-hook
